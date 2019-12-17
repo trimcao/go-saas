@@ -22,7 +22,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var head string
 	head, r.URL.Path = engine.ShiftPath(r.URL.Path)
 	if head == "user" {
-		next = newUser()
+		// next = newUser()
 	} else {
 		next = newError(fmt.Errorf("path not found"), http.StatusNotFound)
 	}

@@ -9,7 +9,7 @@ import (
 // ParseBody parses the request body into a struct
 func ParseBody(body io.ReadCloser, result interface{}) error {
 	decoder := json.NewDecoder(body)
-	return decoder.Decoder(result)
+	return decoder.Decode(result)
 }
 
 // Respond return an object with specific status as JSON
