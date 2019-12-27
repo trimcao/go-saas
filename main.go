@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	api := &controllers.API{}
+	api := controllers.NewAPI()
 
 	log.Println("Server is listening at port 8080")
 	if err := http.ListenAndServe(":8080", api); err != nil {
