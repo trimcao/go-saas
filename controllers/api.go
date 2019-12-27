@@ -22,7 +22,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var head string
 	head, r.URL.Path = engine.ShiftPath(r.URL.Path)
 	if head == "user" {
-		// next = newUser()
+		next = newUser()
 	} else {
 		next = newError(fmt.Errorf("path not found"), http.StatusNotFound)
 	}
@@ -40,5 +40,12 @@ func newError(err error, statusCode int) *engine.Route {
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			engine.Respond(w, r, statusCode, err)
 		}),
+	}
+}
+
+func newUser() *engine.Route {
+	return &engine.Route{
+		Logger:  true,
+		Handler: User{},
 	}
 }

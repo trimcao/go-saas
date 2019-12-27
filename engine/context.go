@@ -9,4 +9,6 @@ const (
 	ContextRequestStart
 	// ContextUserID holds the user ID (this is just for demo)
 	ContextUserID
+	// ContextTestKey is just a demo key
+	ContextTestKey
 )
