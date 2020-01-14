@@ -8,7 +8,7 @@ import (
 )
 
 type Connection = mgo.Session
-type Key = bson.ObjectID
+type Key = bson.ObjectId
 
 func Open(options ...string) (*mgo.Session, error) {
 	conn, err := mgo.Dial(options[1])
