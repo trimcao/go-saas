@@ -3,7 +3,6 @@
 package data
 
 import (
-	_ "github.com/lib/pq"
 	"github.com/trimcao/go-saas/data/model"
 )
 

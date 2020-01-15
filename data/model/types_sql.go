@@ -2,7 +2,11 @@
 
 package model
 
-import "database/sql"
+import (
+	"database/sql"
+
+	_ "github.com/lib/pq"
+)
 
 type Connection = sql.DB
 type Key = int64
