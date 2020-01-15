@@ -1,4 +1,4 @@
-// +build !mgo
+// +build !mgo,!mem
 
 package data
 
