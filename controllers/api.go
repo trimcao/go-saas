@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/trimcao/go-saas/data"
 	"github.com/trimcao/go-saas/engine"
 )
 
 // API is the starting point of our API
 // Responsible for routing the request to the correct handler
 type API struct {
+	DB     *data.DB
 	Logger func(http.Handler) http.Handler
 	User   *engine.Route
 }
@@ -18,6 +20,12 @@ type API struct {
 func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	ctx = context.WithValue(ctx, engine.ContextOriginalPath, r.URL.Path)
+
+	if a.DB.CopySession {
+		a.DB.Users.RefreshSession(a.DB.Connection, a.DB.DatabaseName)
+	}
+
+	ctx = context.WithValue(ctx, engine.ContextDatabase, a.DB)
 
 	var next *engine.Route
 	var head string
@@ -41,13 +49,6 @@ func newError(err error, statusCode int) *engine.Route {
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			engine.Respond(w, r, statusCode, err)
 		}),
-	}
-}
-
-func newUser() *engine.Route {
-	return &engine.Route{
-		Logger:  true,
-		Handler: User{},
 	}
 }
 

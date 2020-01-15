@@ -16,5 +16,7 @@ func (u *Users) GetDetail(id model.Key) (*model.User, error) {
 		return nil, err
 	}
 	return &user, nil
+}
 
+func (u *Users) RefreshSession(conn *sql.DB, dbName string) {
 }

@@ -11,4 +11,6 @@ const (
 	ContextUserID
 	// ContextTestKey is just a demo key
 	ContextTestKey
+	// ContextDatabase stores the database context
+	ContextDatabase
 )
