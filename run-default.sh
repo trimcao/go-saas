@@ -1,0 +1,1 @@
+./go-saas -driver postgres -datasource "postgres://postgres:dbpwd@localhost/gosaas?sslmode=disable"
