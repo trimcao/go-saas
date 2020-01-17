@@ -1,4 +1,4 @@
-// +build !mgo,!mem
+// +build sql
 
 package data
 

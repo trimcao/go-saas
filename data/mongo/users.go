@@ -22,3 +22,13 @@ func (u *Users) GetDetail(id model.Key) (*model.User, error) {
 func (u *Users) RefreshSession(s *mgo.Session, dbName string) {
 	u.DB = s.Copy().DB(dbName)
 }
+
+func (u *Users) SignUp(email, password string) (*model.Account, error) {
+	acct := model.Account{ID: bson.NewObjectId(), Email: email}
+	acct.Users = append(acct.Users, model.User{ID: bson.NewObjectId(), Email: email, Password: password})
+
+	if err := u.DB.C("users").Insert(acct); err != nil {
+		return nil, err
+	}
+	return &acct, nil
+}
