@@ -29,7 +29,7 @@ func (u *Users) SignUp(email, password string) (*model.Account, error) {
 	accountID := bson.NewObjectId()
 	acct := model.Account{ID: accountID, Email: email}
 	acct.Users = append(acct.Users, model.User{
-		ID:       bson.NewObjectId(),
+		ID:       accountID,
 		Email:    email,
 		Password: password,
 		Token:    model.NewToken(accountID),

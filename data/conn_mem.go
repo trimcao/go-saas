@@ -13,8 +13,7 @@ func (db *DB) Open(driverName, dataSourceName string) error {
 		return err
 	}
 
-	// db.Users = &mem.Users{store: []model.User{}}
-	db.Users = &mem.Users{Store: []model.User{}}
+	db.Users = &mem.Users{Store: []model.Account{}}
 
 	// initialize services
 	// db.Connection = conn

@@ -8,7 +8,7 @@ type SessionRefresher interface {
 
 type UserServices interface {
 	SessionRefresher
-	GetDetail(id model.Key) (*model.User, error)
+	GetDetail(id model.Key) (*model.Account, error)
 }
 
 type DB struct {
