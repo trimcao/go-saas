@@ -1,3 +1,5 @@
+// +build mem
+
 package mem
 
 import "github.com/trimcao/go-saas/data/model"

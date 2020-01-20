@@ -1,5 +1,5 @@
 // +build integration
-// +build !mgo
+// +build sql
 
 package data
 
