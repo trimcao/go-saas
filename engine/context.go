@@ -13,4 +13,8 @@ const (
 	ContextTestKey
 	// ContextDatabase stores the database context
 	ContextDatabase
+	// ContextAuth stores the auth context?
+	ContextAuth
+	// ContextMinimumRole stores the minimum role of the call
+	ContextMinimumRole
 )

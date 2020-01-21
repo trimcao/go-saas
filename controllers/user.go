@@ -6,7 +6,10 @@ import (
 	"strconv"
 	"time"
 
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/trimcao/go-saas/data"
+	"github.com/trimcao/go-saas/data/model"
 	"github.com/trimcao/go-saas/engine"
 )
 
@@ -15,8 +18,9 @@ type User struct{}
 func newUser() *engine.Route {
 	var u interface{} = User{}
 	return &engine.Route{
-		Logger:  true,
-		Handler: u.(http.Handler),
+		Logger:      true,
+		Handler:     u.(http.Handler),
+		MinimumRole: model.RoleAdmin,
 	}
 }
 
@@ -46,13 +50,13 @@ func (u User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (u User) detail(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	// v := ctx.Value(engine.ContextTestKey)
-	id := ctx.Value(engine.ContextUserID).(int64)
+	id := ctx.Value(engine.ContextUserID).(bson.ObjectId)
 	db := ctx.Value(engine.ContextDatabase).(*data.DB)
 
 	var result = new(struct {
-		ID    int64     `json:"userId"`
-		Email string    `json:"email"`
-		Time  time.Time `json:"time"`
+		ID    bson.ObjectId `json:"userId"`
+		Email string        `json:"email"`
+		Time  time.Time     `json:"time"`
 	})
 
 	user, err := db.Users.GetDetail(id)

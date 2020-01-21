@@ -6,15 +6,17 @@ import (
 	"net/http"
 
 	"github.com/trimcao/go-saas/data"
+	"github.com/trimcao/go-saas/data/model"
 	"github.com/trimcao/go-saas/engine"
 )
 
 // API is the starting point of our API
 // Responsible for routing the request to the correct handler
 type API struct {
-	DB     *data.DB
-	Logger func(http.Handler) http.Handler
-	User   *engine.Route
+	DB            *data.DB
+	Logger        func(http.Handler) http.Handler
+	Authenticator func(http.Handler) http.Handler
+	User          *engine.Route
 }
 
 func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -36,6 +38,11 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		next = newError(fmt.Errorf("path not found"), http.StatusNotFound)
 	}
 
+	ctx = context.WithValue(ctx, engine.ContextMinimumRole, next.MinimumRole)
+
+	// make sure we are authenticating all calls
+	next.Handler = a.Authenticator(next.Handler)
+
 	if next.Logger {
 		next.Handler = a.Logger(next.Handler)
 	}
@@ -45,15 +52,18 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func newError(err error, statusCode int) *engine.Route {
 	return &engine.Route{
-		Logger: true,
+		Logger:      true,
+		MinimumRole: model.RoleUser,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			engine.Respond(w, r, statusCode, err)
 		}),
 	}
 }
 
+// NewAPI returns a production API with all middlewares
 func NewAPI() *API {
 	return &API{
-		Logger: engine.Logger,
+		Logger:        engine.Logger,
+		Authenticator: engine.Authenticator,
 	}
 }
