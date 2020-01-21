@@ -31,3 +31,9 @@ func Throttle(key string, expire time.Duration) (int64, error) {
 
 	return i, nil
 }
+
+// GetThrottleExpiration returns the time-to-live of a specific Redis key
+func GetThrottleExpiration(key string) (time.Duration, error) {
+	key = fmt.Sprintf("%s_t", key)
+	return rc.TTL(key).Result()
+}
