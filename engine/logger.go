@@ -2,21 +2,13 @@ package engine
 
 import (
 	"context"
-	"github.com/trimcao/go-saas/cache"
-	"github.com/trimcao/go-saas/data/model"
 	"log"
 	"net/http"
 	"time"
-)
 
-//APIRequest represents a single API call
-type APIRequest struct {
-	AccountID  model.Key
-	UserID     model.Key
-	URL        string
-	Requested  time.Time
-	StatusCode int
-}
+	"github.com/trimcao/go-saas/cache"
+	"github.com/trimcao/go-saas/data/model"
+)
 
 // Logger middleware that log request information
 func Logger(next http.Handler) http.Handler {
@@ -48,7 +40,7 @@ func logRequest(r *http.Request, statusCode int) {
 		return
 	}
 
-	lr := APIRequest{
+	lr := model.APIRequest{
 		AccountID:  keys.AccountID,
 		Requested:  time.Now(),
 		StatusCode: statusCode,
@@ -56,7 +48,7 @@ func logRequest(r *http.Request, statusCode int) {
 		UserID:     keys.UserID,
 	}
 
-	go func(lr APIRequest) {
+	go func(lr model.APIRequest) {
 		if _, err := cache.LogRequest(lr); err != nil {
 			// TODO: this should be reported somewhere else as well
 			log.Println("error while logging request to Redis", err)

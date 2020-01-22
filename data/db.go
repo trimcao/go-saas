@@ -22,3 +22,8 @@ type DB struct {
 
 	Users UserServices
 }
+
+type AdminServices interface {
+	SessionRefresher
+	LogRequests(reqs []model.APIRequest) error
+}

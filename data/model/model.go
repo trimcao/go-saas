@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type Roles int
 
 const (
@@ -28,4 +30,14 @@ type AccessToken struct {
 	ID    Key    `bson:"_id" json:"id"`
 	Name  string `bson:"name" json:"name"`
 	Token string `bson:"tok" json:"token"`
+}
+
+// APIRequest represents a single API call
+type APIRequest struct {
+	ID         Key       `bson:"_id" json:"id"`
+	AccountID  Key       `bson:"accountId" json:"accountId"`
+	UserID     Key       `bson:"userId" json:"userId"`
+	URL        string    `bson:"url" json:"url"`
+	Requested  time.Time `bson:"reqon" json:"requested"`
+	StatusCode int       `bson:"sc" json:"statusCode"`
 }
